@@ -32,7 +32,11 @@ block content
                     th Score
                     th Date
                 tbody(data-bind='foreach: leaderboard')
-                    tr
+                    tr.alert.alert-success(data-bind='if: index === 0', style='font-weight: bold')
+                        td(data-bind='text: player')
+                        td(data-bind='text: score')
+                        td(data-bind='text: moment(date())')
+                    tr(data-bind='ifnot: index === 0')
                         td(data-bind='text: player')
                         td(data-bind='text: score')
                         td(data-bind='text: moment(date())')

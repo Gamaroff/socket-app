@@ -39,9 +39,12 @@ $(function () {
                 $.get('/api/leaderboard/' + self.selectedGame().id() +'/' + self.selectedDuration() +'/' + self.selectedPlayers(), function (data) {
                     self.isBusy(false);
 
+                    var i = 0;
+
                     $.each(data.result, function (index, item) {
 
                         var model = new my.LeaderBoardModel();
+                        model.index = i;
                         model.player(item.player);
                         model.duration(item.duration);
                         model.gameId(item.game_id);
@@ -50,6 +53,8 @@ $(function () {
                         model.date(new moment(item.date).format('YYYY-MM-DDTHH:mm:ss'));
 
                         self.leaderboard.push(model)
+
+                        i++;
                     });
                 });
 
