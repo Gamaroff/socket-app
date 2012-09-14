@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 socket-game
 =========
 
@@ -13,3 +14,7 @@ Project uses:
 * Twitter Bootstrap for styles
 * MongoDB with Mongoose for storage
 * bcrypt for hashing passwords
+=======
+socket-app
+==========
+>>>>>>> 8dad9e23e1cbec66cdf4da568cff203576024676
