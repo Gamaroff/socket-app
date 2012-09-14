@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-socket-game
-=========
+
+socket-app 1.3
 
 Question and Answer game for two players using Socket.io.
 
@@ -13,8 +12,4 @@ Project uses:
 * node-uuid for guids
 * Twitter Bootstrap for styles
 * MongoDB with Mongoose for storage
-* bcrypt for hashing passwords
-=======
-socket-app
-==========
->>>>>>> 8dad9e23e1cbec66cdf4da568cff203576024676
+
