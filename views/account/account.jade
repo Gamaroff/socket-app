@@ -1,0 +1,54 @@
+extends ../layout
+
+block header
+    script(type='text/javascript', src='/js/viewmodels/account/accountViewModel.js')
+    script(type='text/javascript')
+        $(function() {
+            ko.applyBindings(new my.AccountViewModel('#{currentUser.first_name}','#{currentUser.last_name}', '#{currentUser.email}'));
+        });
+
+block content
+    .container.inner_content
+
+        h3 Account Details
+        hr
+
+        form.well
+            fieldset
+
+                h4(data-bind='text: username')
+                hr
+
+                label(for='name') First Name:
+                input(type='text', placeholder='First Name', data-bind='validationOptions: { insertMessages: false }, value: firstName, valueUpdate: \'afterkeydown\', css: {\'error\': !firstName.isValid()}')
+                span.label.label-important(data-bind='visible: !firstName.isValid()', style='margin-left: 10px;') required
+                span(style='margin-left: 10px; color: red', data-bind='validationMessage: firstName')
+
+                label(for='name') Last Name:
+                input(type='text', placeholder='Last Name', data-bind='validationOptions: { insertMessages: false }, value: lastName, valueUpdate: \'afterkeydown\', css: {\'error\': !lastName.isValid()}')
+                span.label.label-important(data-bind='visible: !lastName.isValid()', style='margin-left: 10px;') required
+                span(style='margin-left: 10px; color: red', data-bind='validationMessage: lastName')
+
+                hr
+                button.btn.btn-primary(data-toggle='button', data-bind='click: passwordUpdate') Update Password
+                hr
+
+                div(data-bind='visible: canUpdatePassword')
+                    label(for='password') Password:
+                    input(type='password', placeholder='password', data-bind='validationOptions: { insertMessages: false }, value: password, valueUpdate: \'afterkeydown\', css: {\'error\': !password.isValid()}')
+                    span.label.label-important(data-bind='visible: !password.isValid()', style='margin-left: 10px;') required
+                    span(style='margin-left: 10px; color: red', data-bind='validationMessage: password')
+
+                    label(for='confirm-password') Confirm Password:
+                    input(type='password', placeholder='confirm password', data-bind='validationOptions: { insertMessages: false }, value: confirmPassword, valueUpdate: \'afterkeydown\', css: {\'error\': !confirmPassword.isValid()}')
+                    span.label.label-important(data-bind='visible: !confirmPassword.isValid()', style='margin-left: 10px;') required
+                    span(style='margin-left: 10px; color: red', data-bind='validationMessage: confirmPassword')
+
+            .alert.alert-error(data-bind='text: errorMessage, visible: errorMessage')
+
+            hr
+
+            button.btn.btn-success(data-bind="click: update, enable: isValid, visible: !isBusy()") Update Account Details
+            button.btn.btn-success(data-bind="enable: !isBusy(), visible: isBusy") Processing ...
+
+

@@ -1,0 +1,144 @@
+{
+    "gameQuestions":[
+        {
+            "id":1,
+            "question":"Geography Question 1",
+            "gameId":1,
+            "answers":[
+                {
+                    "id":1,
+                    "answer":"Answer 1",
+                    "correct":true
+                },
+                {
+                    "id":2,
+                    "answer":"Answer 2"
+                },
+                {
+                    "id":3,
+                    "answer":"Answer 3"
+                }
+            ]
+        },
+        {
+            "id":2,
+            "question":"Geography Question 2",
+            "gameId":1,
+            "answers":[
+                {
+                    "id":1,
+                    "answer":"Answer 1"
+                },
+                {
+                    "id":2,
+                    "answer":"Answer 2",
+                    "correct":true
+                },
+                {
+                    "id":3,
+                    "answer":"Answer 3"
+                }
+            ]
+        },
+        {
+            "id":3,
+            "question":"Geography Question 3",
+            "gameId":1,
+            "answers":[
+                {
+                    "id":1,
+                    "answer":"Answer 1"
+                },
+                {
+                    "id":2,
+                    "answer":"Answer 2"
+                },
+                {
+                    "id":3,
+                    "answer":"Answer 3",
+                    "correct":true
+                }
+            ]
+        },
+        {
+            "id":4,
+            "question":"Geography Question 4",
+            "gameId":1,
+            "answers":[
+                {
+                    "id":1,
+                    "answer":"Answer 1",
+                    "correct":true
+                },
+                {
+                    "id":2,
+                    "answer":"Answer 2"
+                },
+                {
+                    "id":3,
+                    "answer":"Answer 3"
+                }
+            ]
+        },
+        {
+            "id":5,
+            "question":"Geography Question 5",
+            "gameId":1,
+            "answers":[
+                {
+                    "id":1,
+                    "answer":"Answer 1"
+                },
+                {
+                    "id":2,
+                    "answer":"Answer 2",
+                    "correct":true
+                },
+                {
+                    "id":3,
+                    "answer":"Answer 3"
+                }
+            ]
+        },
+        {
+            "id":6,
+            "question":"History Question 1",
+            "gameId":2,
+            "answers":[
+                {
+                    "id":1,
+                    "answer":"Answer 1"
+                },
+                {
+                    "id":2,
+                    "answer":"Answer 2",
+                    "correct":true
+                },
+                {
+                    "id":3,
+                    "answer":"Answer 3"
+                }
+            ]
+        },
+        {
+            "id":7,
+            "question":"History Question 2",
+            "gameId":2,
+            "answers":[
+                {
+                    "id":1,
+                    "answer":"Answer 1"
+                },
+                {
+                    "id":2,
+                    "answer":"Answer 2"
+                },
+                {
+                    "id":3,
+                    "answer":"Answer 3",
+                    "correct":true
+                }
+            ]
+        }
+    ]
+}

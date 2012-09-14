@@ -1,0 +1,52 @@
+doctype 5
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/styles/bootstrap.min.css')
+        link(rel='stylesheet', href='/styles/bootstrap-responsive.min.css')
+        script(type='text/javascript', src='/js/lib/jquery-1.7.2.min.js')
+        script(type='text/javascript', src='/js/lib/moment.js')
+        script(type='text/javascript', src='/socket.io/socket.io.js')
+        script(type='text/javascript', src='/js/lib/bootstrap.min.js')
+        script(type='text/javascript', src='/js/lib/knockout-2.1.0.js')
+        script(type='text/javascript', src='/js/lib/knockout.validation.js')
+        script(type='text/javascript', src='/js/namespace.js')
+        block header
+    body
+
+        .navbar
+            .navbar-inner
+                .container
+                    a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.brand(href='#') Socket Game
+                    .nav-collapse
+                        ul.nav
+                            li
+                                a(href='/') Home
+                            li
+                                a(href='/game') Game
+                            li
+                                a(href='/leaderboard') Leaderboard
+
+                        ul.nav.pull-right
+
+                            if currentUser != null && currentUser != ''
+                                li
+                                    a(href='/account') #{currentUser.email}
+                                li
+                                    a(href='/logout') sign out
+                            li.divider-vertical
+
+                            if currentUser == null || currentUser == ''
+                                li
+                                    a(href='/register') sign up
+                                li
+                                    a(href='/login') sign in
+
+        .container
+            .row
+                .span12
+                    block content

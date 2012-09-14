@@ -1,0 +1,48 @@
+extends layout
+
+block header
+    script(type='text/javascript', src='/js/models/gameModel.js')
+    script(type='text/javascript', src='/js/models/leaderboardModel.js')
+    script(type='text/javascript', src='/js/viewmodels/game/leaderboardViewModel.js')
+    script(type='text/javascript')
+        $(function() {
+            ko.applyBindings(new my.LeaderBoardViewModel());
+        });
+
+
+block content
+
+    .row
+        .span12
+            h1 The Leaderboard
+            hr
+    .row
+        .span12
+            form.well.form-search
+                select.input-medium(data-bind='options: players, optionsValue: \'id\', optionsText: \'name\', value: selectedPlayers', style='margin-right: 5px;')
+                select.input-medium(data-bind='options: durations, optionsValue: \'value\', optionsText: \'name\', value: selectedDuration', style='margin-right: 5px;')
+                select(data-bind='options: games, optionsText: \'name\', value: selectedGame', style='margin-right: 5px;')
+                button.btn.btn-primary(data-bind='click: loadLeaderBoard') View Leaderboard
+            hr
+    .row
+        .span12
+            table.table.table-condensed
+                tr
+                    th Player
+                    th Score
+                    th Date
+                tbody(data-bind='foreach: leaderboard')
+                    tr
+                        td(data-bind='text: player')
+                        td(data-bind='text: score')
+                        td(data-bind='text: moment(date())')
+
+
+
+
+
+
+
+
+
+

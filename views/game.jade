@@ -1,0 +1,108 @@
+extends layout
+
+block header
+    script(type='text/javascript', src='/js/countdown.js')
+    script(type='text/javascript', src='/js/lib/underscore-min.js')
+    script(type='text/javascript', src='/js/models/gameModel.js')
+    script(type='text/javascript', src='/js/models/questionModel.js')
+    script(type='text/javascript', src='/js/models/answerModel.js')
+    script(type='text/javascript', src='/js/viewmodels/game/gameViewModel.js')
+    script(type='text/javascript')
+        $(function() {
+            ko.applyBindings(new my.GameViewModel('#{currentUser.first_name}','#{currentUser.last_name}'));
+        });
+    style
+        .mega {width:100%; text-align:center; padding: 20px 0px; text-transform:uppercase; font-weight:bold;}
+
+
+block content
+
+    .row
+        .span12
+            h1(data-bind='visible: selectedPlayers() == 1') Single Player
+            h1(data-bind='visible: selectedPlayers() == 2') Multiplayer
+            hr
+    div(data-bind='visible: selectedPlayers() == 0')
+        .row
+            .well
+                .row
+                    .span3.offset3
+                        button.btn.btn-info.mega(data-bind='click: selectSingle') Single Player
+                    .span3
+                        button.btn.btn-info.mega(data-bind='click: selectMulti') Multiplayer
+
+    div(data-bind='visible: selectedPlayers() > 0')
+        .row
+            .span12
+            form.well.form-search
+                select.input-medium(data-bind='options: durations, optionsValue: \'value\', optionsText: \'name\', value: selectedDuration', style='margin-right: 5px;')
+                select(data-bind='options: games, optionsText: \'name\', value: selectedGame', style='margin-right: 5px;')
+                button.btn.btn-primary(data-bind='click: startGame') Start Game
+            hr
+
+        .row
+            .span8
+                h2(data-bind='text: message')
+            .span4
+                h3
+                    #GameStartCountdown
+        hr
+
+
+        .row(data-bind='visible: gameActive')
+            .span12
+                .row
+                    .span8
+
+                        div(data-bind='if: question')
+                            h3(data-bind='with: question')
+                                span Your current question is:&nbsp;
+                                span(data-bind='text: question')
+
+                            table.table.table-condensed
+                                tbody(data-bind='foreach: answers')
+                                    tr
+                                        td(data-bind='text: answer')
+                                        td(style='width: 200px;')
+                                            button.btn.btn-primary(data-bind='click: $root.selectAnswer') Select
+
+                    .span4
+                        .row
+                            .span4(data-bind='visible: !finished()')
+                                h2
+                                    #GameCountdown
+                                hr
+                        .row
+                            .span2
+                                .alert.alert-success
+                                    h4
+                                        span(data-bind='text: playerName')
+                                    hr
+                                    h3(data-bind='text: score')
+                            .span2(data-bind='visible: selectedPlayers() > 1')
+                                .alert.alert-info
+                                    h4
+                                        span(data-bind='text: opponentName')
+                                    hr
+                                    div(data-bind='visible: opponentStatus')
+                                        h4 Still Playing...
+                                    h3(data-bind='text: opponentScore')
+                        .row
+                            .span4
+                                hr
+                        .row
+                            .span4(data-bind='if: finished')
+                                button.btn.btn-success.btn-xlarge(data-bind='click: submitScore', style='margin: 5px;') Submit your score
+                        .row
+                            .span4
+                                hr
+                        .row
+                            .span4
+                                a(href='/leaderboard') View the Leaderboard
+
+
+
+
+
+
+

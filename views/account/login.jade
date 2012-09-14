@@ -1,0 +1,33 @@
+extends ../layout
+
+block header
+    script(type='text/javascript', src='/js/viewmodels/account/loginViewModel.js')
+    script(type='text/javascript')
+        $(function() {
+            ko.applyBindings(new my.LoginViewModel());
+        });
+
+block content
+    .container
+
+        form.well(name='LoginForm', action='/login', method='POST')
+            fieldset
+
+                label(for='email') Email:
+                input(type='text', name='username', placeholder='email@email.com', data-bind='validationOptions: { insertMessages: false }, value: username, valueUpdate: \'afterkeydown\', css: {\'error\': !username.isValid()}')
+                span.label.label-important(data-bind='visible: !username.isValid()', style='margin-left: 10px;') required
+                span(style='margin-left: 10px; color: red', data-bind='validationMessage: username')
+
+                label(for='password') Password:
+                input(type='password', name='password', placeholder='password', data-bind='validationOptions: { insertMessages: false }, value: password, valueUpdate: \'afterkeydown\', css: {\'error\': !password.isValid()}')
+                span.label.label-important(data-bind='visible: !password.isValid()', style='margin-left: 10px;') required
+                span(style='margin-left: 10px; color: red', data-bind='validationMessage: password')
+
+
+            .alert.alert-error(data-bind='visible: !isValid()')
+                | Ensure that all required fields are entered and correct
+            .alert.alert-error(data-bind='text: errorMessage, visible: errorMessage')
+
+            button.btn.btn-success(data-bind="click: login, enable: isValid, visible: !isBusy()") Login
+            button.btn.btn-success(data-bind="click: login, enable: !isBusy(), visible: isBusy") logging in...
+
