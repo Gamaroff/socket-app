@@ -29,8 +29,6 @@ function ProcessRoutes() {
 
                     var json = JSON.parse(data.toString());
 
-                    // console.log(JSON.stringify(json));
-
                     var gameData = {gameId:gameId, gameQuestions:[]};
 
                     var headerQuestion = json.head.question;
@@ -53,7 +51,7 @@ function ProcessRoutes() {
                     });
 
                     _.each(gameData.gameQuestions, function(gameQuestion){
-                        var randomItems = _.shuffle(answerArray).slice(0, 4);
+                        var randomItems = _.shuffle(_.uniq(answerArray)).slice(0, 4);
 
                         var filtered = _.filter(randomItems, function(item){
                             return item !== gameQuestion.answers[0].answer;
