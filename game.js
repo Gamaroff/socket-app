@@ -70,7 +70,7 @@ function Game() {
 
             });
 
-            // if the player runs out of time finish the game
+            // if the player runs out of time, finish the game
             socket.on('time_up', function (data) {
                 socket.emit('finish', {});
                 socket.broadcast.to(data.gameRoom).emit('opponent_finished');
@@ -117,11 +117,9 @@ function Game() {
                     if (clientSocket.id === clientSocketId) {
 
                         // get the game data on the client already in the room for comparison with the newly joining client
-
                         clientSocket.get('game', function (err, game) {
 
                             // get the duration data of the client already in the room
-
                             clientSocket.get('duration', function (derr, duration) {
 
                                 // Game and Duration must be the same so players are playing same game and duration
@@ -141,8 +139,27 @@ function Game() {
 
             }
 
-            // if the room has two clients in it then send the first question
+            // if the room has two players in it then send the first question
             if (room !== '' && clients.length == 2) {
+
+                //var clientSocketId = clients[0];
+                socket.set('playerName', data.playerName);
+
+
+                // go through all the clients
+                _.each(io.sockets.clients(), function (clientSocket) {
+
+                    if (clientSocket.id === socket.id) {
+                       // clientSocket.get('playerName', function (err, playerName) {
+                            socket.broadcast.emit('opponent_name', {name: data.playerName});
+                        //});
+                    }
+                    else {
+                        clientSocket.get('playerName', function (err, playerName) {
+                           clientSocket.broadcast.emit('opponent_name', {name: playerName});
+                        });
+                    }
+                });
 
                 gameModel.getQuestions(data.game, function (result) {
                     io.sockets.in(room.slice(1)).emit('start',
@@ -152,11 +169,10 @@ function Game() {
 
                             // and the number of questions
                             questionCount:result.length,
-
-                            // and the player name
-                            opponentName:data.playerName
                         });
                 });
+
+
             }
         }
 
@@ -167,6 +183,8 @@ function Game() {
             socket.set('game', data.game);
             socket.set('duration', data.duration);
             socket.emit('in_room', {gameRoom:room});
+            socket.set('playerName', data.playerName);
+
         }
     };
 

@@ -46,11 +46,11 @@ $(function () {
 
         self.message = ko.observable();
 
-        self.selectSingle = function(){
+        self.selectSingle = function () {
             self.selectedPlayers(1);
         };
 
-        self.selectMulti = function(){
+        self.selectMulti = function () {
             self.selectedPlayers(2);
         };
 
@@ -100,10 +100,8 @@ $(function () {
             // when the game starts
             socket.on('start', function (data) {
 
-                self.opponentName(data.opponentName);
-
                 if (self.selectedPlayers() > 1)
-                    self.message(data.opponentName + ' has joined the game. Starting game in...');
+                    self.message(self.opponentName() + ' has joined the game. Starting game in...');
                 else
                     self.message('Starting game in...');
 
@@ -159,6 +157,11 @@ $(function () {
                 self.opponentScore(self.opponentScore() + data.score);
             });
 
+            // when an opponent starts
+            socket.on('opponent_name', function (data) {
+                self.opponentName(data.name);
+            });
+
             // when the opponent finishes the game notify the ui
             socket.on('opponent_finished', function (data) {
                 self.opponentStatus(false);
@@ -189,7 +192,7 @@ $(function () {
                 game_description:self.selectedGame().name(),
                 duration:self.selectedDuration(),
                 score:self.score(),
-                players: self.selectedPlayers()
+                players:self.selectedPlayers()
             };
 
             $.post('/api/leaderboard', dto, function (data) {

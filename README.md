@@ -1,4 +1,3 @@
-
 socket-app 1.3
 
 Question and Answer game for two players using Socket.io.
