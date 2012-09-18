@@ -131,6 +131,36 @@ function Game() {
                                     socket.set('duration', data.duration);
                                     socket.emit('in_room', {gameRoom:room.slice(1)});
                                     inRoom = true;
+
+                                    //var clientSocketId = clients[0];
+                                    socket.set('playerName', data.playerName);
+
+                                    // go through all the clients
+                                    _.each(io.sockets.clients(), function (clientSocket) {
+
+                                        if (clientSocket.id === socket.id) {
+                                            // clientSocket.get('playerName', function (err, playerName) {
+                                            socket.broadcast.emit('opponent_name', {name:data.playerName});
+                                            //});
+                                        }
+                                        else {
+                                            clientSocket.get('playerName', function (err, playerName) {
+                                                clientSocket.broadcast.emit('opponent_name', {name:playerName});
+                                            });
+                                        }
+                                    });
+
+                                    gameModel.getQuestions(data.game, function (result) {
+                                        io.sockets.in(room.slice(1)).emit('start',
+                                            {
+                                                // send the first random question
+                                                question:result[Math.floor(Math.random() * result.length) + 1],
+
+                                                // and the number of questions
+                                                questionCount:result.length,
+                                            });
+                                    });
+
                                 }
                             });
                         });
@@ -139,41 +169,6 @@ function Game() {
 
             }
 
-            // if the room has two players in it then send the first question
-            if (room !== '' && clients.length == 2) {
-
-                //var clientSocketId = clients[0];
-                socket.set('playerName', data.playerName);
-
-
-                // go through all the clients
-                _.each(io.sockets.clients(), function (clientSocket) {
-
-                    if (clientSocket.id === socket.id) {
-                       // clientSocket.get('playerName', function (err, playerName) {
-                            socket.broadcast.emit('opponent_name', {name: data.playerName});
-                        //});
-                    }
-                    else {
-                        clientSocket.get('playerName', function (err, playerName) {
-                           clientSocket.broadcast.emit('opponent_name', {name: playerName});
-                        });
-                    }
-                });
-
-                gameModel.getQuestions(data.game, function (result) {
-                    io.sockets.in(room.slice(1)).emit('start',
-                        {
-                            // send the first random question
-                            question:result[Math.floor(Math.random() * result.length) + 1],
-
-                            // and the number of questions
-                            questionCount:result.length,
-                        });
-                });
-
-
-            }
         }
 
         // There are no rooms to join the create a new room for the client
