@@ -184,6 +184,10 @@ $(function () {
             });
         };
 
+        self.playAgain = function() {
+          location.href ='/game';
+        };
+
         self.submitScore = function () {
             self.isBusy(true);
 

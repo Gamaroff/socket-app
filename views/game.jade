@@ -32,7 +32,7 @@ block content
                         button.btn.btn-info.mega(data-bind='click: selectMulti') Multiplayer
 
     div(data-bind='visible: selectedPlayers() > 0')
-        .row
+        .row(data-bind='visible: !gameActive()')
             .span12
             form.well.form-search
                 select.input-medium(data-bind='options: durations, optionsValue: \'value\', optionsText: \'name\', value: selectedDuration', style='margin-right: 5px;')
@@ -94,6 +94,7 @@ block content
                         .row
                             .span4(data-bind='if: finished')
                                 button.btn.btn-success.btn-xlarge(data-bind='click: submitScore', style='margin: 5px;') Submit your score
+                                button.btn.btn-primary.btn-xlarge(data-bind='click: playAgain', style='margin: 5px;') Play Again
                         .row
                             .span4
                                 hr

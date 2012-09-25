@@ -107,7 +107,7 @@ function Game() {
             var clients = rooms[room];
 
             // If the room has one player in it and it is not the default room
-            if (room !== '' && clients.length == 1) {
+            if (room !== '' && clients.length === 1) {
 
                 var clientSocketId = clients[0];
 

@@ -7,6 +7,7 @@ var _ = require('underscore');
 var fs = require('fs');
 
 function Game() {
+    'use strict';
 
     var self = this;
 
@@ -28,10 +29,12 @@ function Game() {
             return g.id === gameId;
         });
 
-        if (game)
+        if (game) {
             callback(null, game);
-        else
+        }
+        else {
             callback('No game');
+        }
     };
 
     self.getQuestions = function (gameId, callback) {
@@ -60,8 +63,8 @@ function Game() {
             var gameData = JSON.parse(data.toString());
 
             var question = _.find(gameData.gameQuestions, function (question) {
-                return question.id === parseInt(id);
-            })
+                return question.id === parseInt(id, 10);
+            });
 
             callback(question);
 
