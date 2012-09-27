@@ -42,6 +42,8 @@ $(function () {
 
         self.finished = ko.observable(false);
 
+        self.gameCancelled = ko.observable(false);
+
         self.gameActive = ko.observable(false);
 
         self.message = ko.observable();
@@ -78,6 +80,7 @@ $(function () {
         self.startGame = function () {
 
             self.otherMessage(null);
+            self.gameCancelled(false);
 
             // create a connection to the game
             socket = io.connect('http://localhost:3000');
@@ -114,26 +117,29 @@ $(function () {
 
                 startCountdown.init(5, 'GameStartCountdown', function () {
 
-                    $('#GameStartCountdown').hide();
-                    self.message('Your game has started!');
+                    if (!self.gameCancelled()) {
 
-                    // set the duration and countdown timer
-                    var gameDuration = parseInt(self.selectedDuration()) * 60;
+                        $('#GameStartCountdown').hide();
+                        self.message('Your game has started!');
 
-                    gameCountdown.init(gameDuration, 'GameCountdown', function () {
-                        socket.emit('time_up', {gameRoom:self.gameRoom()});
-                    });
+                        // set the duration and countdown timer
+                        var gameDuration = parseInt(self.selectedDuration()) * 60;
 
-                    // set the questionCount
-                    questionCount = data.questionCount;
+                        gameCountdown.init(gameDuration, 'GameCountdown', function () {
+                            socket.emit('time_up', {gameRoom:self.gameRoom()});
+                        });
 
-                    for (var i = 0; i < questionCount; i++)
-                        questionList.push(i);
+                        // set the questionCount
+                        questionCount = data.questionCount;
 
-                    questionList = _.shuffle(questionList);
+                        for (var i = 0; i < questionCount; i++)
+                            questionList.push(i);
 
-                    // fetch a question
-                    loadQuestion(data.question);
+                        questionList = _.shuffle(questionList);
+
+                        // fetch a question
+                        loadQuestion(data.question);
+                    }
                 });
 
             });
@@ -180,9 +186,11 @@ $(function () {
             socket.on('opponent_disconnected', function () {
                 self.opponentStatus(false);
                 gameCountdown.stop();
+                self.message('Your game has finished.');
                 self.otherMessage('The other player stopped their game. The game has finished.');
                 self.question(null);
                 self.finished(true);
+                self.gameCancelled(true);
             });
         };
 
