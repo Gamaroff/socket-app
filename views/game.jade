@@ -44,6 +44,9 @@ block content
             .span8
                 h2
                     span(data-bind='text: message')
+                div(data-bind='if: otherMessage')
+                    .alert
+                        span(data-bind='text: otherMessage')
             .span4
                 h3
                     #GameStartCountdown

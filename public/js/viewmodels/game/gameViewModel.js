@@ -45,6 +45,7 @@ $(function () {
         self.gameActive = ko.observable(false);
 
         self.message = ko.observable();
+        self.otherMessage = ko.observable();
 
         self.selectSingle = function () {
             self.selectedPlayers(1);
@@ -67,7 +68,7 @@ $(function () {
                     model.id(item.id);
                     model.name(item.name);
 
-                    self.games.push(model)
+                    self.games.push(model);
                 });
 
             });
@@ -75,6 +76,8 @@ $(function () {
         };
 
         self.startGame = function () {
+
+            self.otherMessage(null);
 
             // create a connection to the game
             socket = io.connect('http://localhost:3000');
@@ -143,8 +146,9 @@ $(function () {
 
             // when the game is finished update the score end the game
             socket.on('finish', function (data) {
-                if (data.score)
+                if (data.score) {
                     self.score(self.score() + data.score);
+                }
                 gameCountdown.stop();
                 self.message('Your game has finished.');
                 self.question(null);
@@ -171,6 +175,15 @@ $(function () {
             socket.on('opponent_playing', function (data) {
                 self.opponentStatus(true);
             });
+
+            // when the opponent disconnects
+            socket.on('opponent_disconnected', function () {
+                self.opponentStatus(false);
+                gameCountdown.stop();
+                self.otherMessage('The other player stopped their game. The game has finished.');
+                self.question(null);
+                self.finished(true);
+            });
         };
 
         // when a player selects and answer then send it to the socket
@@ -184,8 +197,8 @@ $(function () {
             });
         };
 
-        self.playAgain = function() {
-          location.href ='/game';
+        self.playAgain = function () {
+            location.href = '/game';
         };
 
         self.submitScore = function () {

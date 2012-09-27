@@ -23,10 +23,20 @@ function Game() {
 
             socket.on('new_game', function (data) {
 
-                if (parseInt(data.players, 10) === 2)
+                if (parseInt(data.players, 10) === 2) {
                     twoPlayerGame(socket, data);
-                else
+                }
+                else {
                     singlePlayerGame(socket, data);
+                }
+            });
+
+            socket.on('disconnect', function (data) {
+
+                socket.get('room', function (derr, room) {
+                    socket.broadcast.to(room).emit('opponent_disconnected');
+                });
+
             });
 
             // when a client answers a question
@@ -127,6 +137,7 @@ function Game() {
 
                                     // Join the client to the room with a waiting client playing the same game and duration
                                     socket.join(room.slice(1));
+                                    socket.set('room', room.slice(1));
                                     socket.set('game', data.game);
                                     socket.set('duration', data.duration);
                                     socket.emit('in_room', {gameRoom:room.slice(1)});
@@ -175,6 +186,7 @@ function Game() {
         if (!inRoom) {
             var room = uuid.v4();
             socket.join(room);
+            socket.set('room', room);
             socket.set('game', data.game);
             socket.set('duration', data.duration);
             socket.emit('in_room', {gameRoom:room});
