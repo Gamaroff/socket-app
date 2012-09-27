@@ -35,7 +35,7 @@ $(function () {
 
         self.setTimeLeft = function (t) {
             time_left = t;
-            if (keep_counting == 0) {
+            if (keep_counting === 0) {
                 self.timer();
             }
         };
@@ -57,7 +57,7 @@ $(function () {
             }
 
             time_left = time_left - 1;
-        }
+        };
 
         var add_leading_zero = function (n) {
             if (n.toString().length < 2) {
@@ -65,7 +65,7 @@ $(function () {
             } else {
                 return n;
             }
-        }
+        };
 
         var format_output = function () {
             var hours, minutes, seconds;
@@ -78,16 +78,20 @@ $(function () {
             hours = add_leading_zero(hours);
 
             return hours + ':' + minutes + ':' + seconds;
-        }
+        };
 
         var show_time_left = function () {
             document.getElementById(output_element_id).innerHTML = format_output();//time_left;
-        }
+        };
 
         var no_time_left = function () {
             // document.getElementById(output_element_id).innerHTML = no_time_left_message;
-            myCallback();
-        }
+            try {
+                myCallback();
+            }
+            catch (ex) {
+            }
+        };
 
     }
 
